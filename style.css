@@ -1,0 +1,99 @@
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  background-color: #111;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header, footer {
+  width: 100%;
+  background-color: #222;
+  text-align: center;
+  padding: 20px;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: #0ff;
+  text-decoration: none;
+}
+
+.hero {
+  text-align: center;
+  padding: 50px 20px;
+  background-image: url('pixel-background.png');
+  background-size: cover;
+  width: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
+}
+
+form input, form textarea {
+  width: 300px;
+  padding: 10px;
+  margin: 10px 0;
+  font-family: 'Press Start 2P', cursive;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0ff;
+  border: none;
+  cursor: pointer;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.games {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.game {
+  background-color: #333;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+}
+
+.game img {
+  max-width: 100%;
+  margin-top: 10px;
+  border: 2px solid #0ff;
+}
+
+footer p {
+  margin: 0;
+}
+.game img {
+  width: 100%;
+  max-width: 400px; /* aumente esse valor se quiser imagens ainda maiores */
+  margin-top: 10px;
+  border: 2px solid #0ff;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
