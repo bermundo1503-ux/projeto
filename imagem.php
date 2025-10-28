@@ -1,26 +1,38 @@
 <?php
-include 'db.php';
+include 'conn.php';
 
 $id = $_GET['id'] ?? null;
-if (!$id) {
-  http_response_code(400);
-  echo "ID inválido.";
-  exit;
+
+if (!$id || !is_numeric($id)) {
+    header('Content-Type: image/png');
+    readfile(__DIR__ . '/img/no-image.png');
+    exit;
 }
 
-$stmt = mysqli_prepare($conn, "SELECT imagem, imagem_tipo FROM jogos WHERE id = ?");
-mysqli_stmt_bind_param($stmt, "i", $id);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_store_result($stmt);
+$stmt = $conn->prepare("SELECT imagem, imagem_tipo FROM jogos WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$stmt->store_result();
 
-if (mysqli_stmt_num_rows($stmt) === 0) {
-  http_response_code(404);
-  echo "Imagem não encontrada.";
-  exit;
+if ($stmt->num_rows === 0) {
+    header('Content-Type: image/png');
+    readfile(__DIR__ . '/img/no-image.png');
+    exit;
 }
 
-mysqli_stmt_bind_result($stmt, $imagem, $tipo);
-mysqli_stmt_fetch($stmt);
+$stmt->bind_result($imagem, $tipo);
+$stmt->fetch();
+
+if (empty($imagem)) {
+    header('Content-Type: image/png');
+    readfile(__DIR__ . '/img/no-image.png');
+    exit;
+}
+
+// Tipo padrão se não houver tipo salvo
+if (empty($tipo)) {
+    $tipo = 'image/jpeg';
+}
 
 header("Content-Type: $tipo");
 echo $imagem;

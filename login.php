@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($email) || empty($senha)) {
         $error_message = "Por favor, preencha todos os campos.";
     } else {
-        // Prepara a consulta para buscar o usuário pelo email
         $stmt = $conn->prepare("SELECT id, nome, senha FROM usuarios WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -25,12 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();
-            // Verifica se a senha fornecida corresponde à senha hashed no banco de dados
             if (password_verify($senha, $user['senha'])) {
-                // Login bem-sucedido: Armazena informações do usuário na sessão
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['nome'];
-                header("Location: index.php"); // Redireciona para a página inicial
+                
+                // Verifica se o email é o do administrador
+                if ($user['email'] === 'ber.mundo1503@gmail.com') {
+                    $_SESSION['is_admin'] = true;
+                }
+
+                header("Location: index.php");
                 exit();
             } else {
                 $error_message = "Email ou senha incorretos.";
@@ -45,22 +48,77 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Login - Loja de Filmes</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Fase Bônus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Login</h1>
-        <?php if ($error_message): ?>
-            <p class="error"><?= htmlspecialchars($error_message) ?></p>
-        <?php endif; ?>
-        <form action="login.php" method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" required>
-            <button type="submit">Entrar</button>
-        </form>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.php">Fase Bônus</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="registrar.php">Registrar</a>
+                </li>
+            </ul>
+        </div>
     </div>
+</nav>
+
+<div class="main-content">
+    <div class="login-container p-4">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title text-center mb-4">Login</h1>
+                <?php if ($error_message): ?>
+                    <div class="alert alert-danger"><?= htmlspecialchars($error_message) ?></div>
+                <?php endif; ?>
+                <form action="login.php" method="POST">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Senha:</label>
+                        <input type="password" id="senha" name="senha" class="form-control" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Entrar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <p class="mb-0">Não tem uma conta? <a href="registrar.php">Registre-se</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-dark text-white text-center p-3">
+    <p>&copy; <?php echo date('Y'); ?> Ber. Todos os direitos reservados.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
