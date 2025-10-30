@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'conn.php';
 
 $error_message = '';
@@ -42,43 +43,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar - Fase Bônus</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: #f8f9fa;
-        }
-        .main-content {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .register-container {
-            max-width: 500px;
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">Fase Bônus</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link active" href="index.php">Início</a></li>
+                <li class="nav-item"><a class="nav-link" href="create.php">Adicionar Jogo</a></li>
+                <li class="nav-item"><a class="nav-link" href="estoque.php">Estoque</a></li>
+                <li class="nav-item"><a class="nav-link" href="usuarios.php">Usuários</a></li>
+            </ul>
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="login.php">Login</a>
+                    <a class="nav-link" href="carrinho.php">Carrinho
+                        <span class="badge bg-info text-dark"><?php echo isset($_SESSION['carrinho']) ? count($_SESSION['carrinho']) : 0; ?></span>
+                    </a>
                 </li>
+                <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="main-content py-5">
-    <div class="register-container p-4">
+<div class="container content py-5">
+    <div class="register-container p-4 mx-auto">
         <div class="card">
             <div class="card-body">
                 <h1 class="card-title text-center mb-4">Registrar</h1>

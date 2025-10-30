@@ -1,5 +1,6 @@
 <?php
 session_start();
+// Exigir login para acessar a página inicial
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -16,103 +17,81 @@ include 'conn.php';
 <title>Fase Bônus - Loja de Jogos</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<style>
-/* === FUNDO RETRÔ === */
-body {
-    margin:0; padding:0;
-    background-image:url('img/background2.jpg');
-    background-size:cover;
-    background-attachment:fixed;
-    background-position:center;
-    font-family:'Press Start 2P',cursive;
-    color:#00fff2;
-    text-shadow:0 0 5px #00fff2;
-}
-body::before {
-    content:''; position:fixed; top:0; left:0; right:0; bottom:0;
-    background-color:rgba(0,0,10,0.85); z-index:-1;
-}
-
-/* === NAVBAR === */
-.navbar { background-color: rgba(0,0,0,0.95)!important; border-bottom:3px solid #00fff2; box-shadow:0 0 20px #00fff2; font-size:10px; letter-spacing:1px; }
-.navbar-brand, .nav-link { color:#00fff2!important; text-shadow:0 0 10px #00fff2; }
-.nav-link:hover, .nav-link.active { color:#00fff2!important; text-shadow:0 0 15px #00fff2, 0 0 20px #00fff2; }
-
-/* === CARDS === */
-.card { background-color: rgba(0,0,0,0.85); border:2px solid #00fff2; border-radius:8px; box-shadow:0 0 10px rgba(0,255,242,0.2); text-align:left; transition: transform 0.2s, box-shadow 0.2s; }
-.card:hover { transform:scale(1.03); box-shadow:0 0 20px #00fff2; }
-.card-title { color:#00fff2; text-shadow:0 0 8px #00fff2; }
-
-/* === INPUT COMPACTO === */
-.input-compact { width:50px; padding:2px 4px; font-size:10px; border:2px solid #00fff2; border-radius:3px; background-color:rgba(0,0,0,0.9); color:#00fff2; text-align:center; }
-.input-compact:focus { outline:none; box-shadow:0 0 8px #00fff2; }
-
-/* === LEIA MAIS === */
-.full-desc { display:none; color:#00fff2; }
-.read-more { color:#00fff2; cursor:pointer; font-size:10px; text-decoration:underline; }
-
-/* === CARROSSEL === */
-.carousel { position:relative; height:160px; overflow:hidden; border-radius:8px; margin-bottom:40px; }
-.slides { display:flex; height:100%; transition:transform .45s ease; }
-.slide { min-width:100%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; color:#00fff2; text-shadow:0 0 8px #00fff2; }
-.slide-a { background: linear-gradient(45deg,#ffd6a5,#fdffb6); }
-.slide-b { background: linear-gradient(45deg,#a0c4ff,#bdb2ff); }
-.slide-c { background: linear-gradient(45deg,#caffbf,#9bf6ff); }
-.controls { display:flex; gap:8px; justify-content:center; margin-top:8px; }
-button.small { padding:4px 10px; font-size:16px; border:none; border-radius:4px; background-color:#00fff2; color:#000; cursor:pointer; font-family:'Press Start 2P',cursive; }
-button.small:hover { background-color:#02c1c1; color:#fff; }
-
-/* === RODAPÉ === */
-footer { background-color: rgba(0,0,0,0.95); color:#00fff2; border-top:3px solid #00fff2; text-align:center; font-size:10px; letter-spacing:1px; padding:15px 0; text-shadow:0 0 10px #00fff2; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- CARROSSEL -->
-<div class="container content">
-<div class="card" id="carousel">
-    <div class="example-title">Carrossel / Slider</div>
-    <p>Troca de "slides" com botões.</p>
-    <div class="carousel" aria-label="Carrossel de exemplo">
-        <div class="slides" id="slides">
-            <div class="slide slide-a">Slide 1 — Texto ou imagem</div>
-            <div class="slide slide-b">Slide 2 — Promoção</div>
-            <div class="slide slide-c">Slide 3 — Contato</div>
-        </div>
-    </div>
-    <div class="controls">
-        <button id="prev" class="small">◀</button>
-        <button id="next" class="small">▶</button>
-    </div>
-</div>
-</div>
-
-<!-- NAVBAR -->
+<!-- ✅ NAVBAR DEVE VIR PRIMEIRO -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
-<div class="container-fluid">
-    <a class="navbar-brand" href="index.php">Fase Bônus</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link active" href="index.php">Início</a></li>
-            <li class="nav-item"><a class="nav-link" href="create.php">Adicionar Jogo</a></li>
-            <li class="nav-item"><a class="nav-link" href="estoque.php">Estoque</a></li>
-            <li class="nav-item"><a class="nav-link" href="usuarios.php">Usuários</a></li>
-        </ul>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="carrinho.php">Carrinho
-                    <span class="badge bg-info text-dark"><?php echo isset($_SESSION['carrinho']) ? count($_SESSION['carrinho']) : 0; ?></span>
-                </a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="logout.php">Sair</a></li>
-        </ul>
-    </div>
-</div>
+  <div class="container-fluid">
+      <a class="navbar-brand" href="index.php">Fase Bônus</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+              <li class="nav-item"><a class="nav-link active" href="index.php">Início</a></li>
+              <li class="nav-item"><a class="nav-link" href="create.php">Adicionar Jogo</a></li>
+              <li class="nav-item"><a class="nav-link" href="estoque.php">Estoque</a></li>
+              <li class="nav-item"><a class="nav-link" href="usuarios.php">Usuários</a></li>
+          </ul>
+          <ul class="navbar-nav">
+              <li class="nav-item">
+                  <a class="nav-link" href="carrinho.php">Carrinho
+                      <span class="badge bg-info text-dark"><?php echo isset($_SESSION['carrinho']) ? count($_SESSION['carrinho']) : 0; ?></span>
+                  </a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="logout.php">Sair</a></li>
+          </ul>
+      </div>
+  </div>
 </nav>
 
+<!-- ✅ CARROSSEL -->
+<div class="container content">
+  <div class="card" id="carousel">
+      <div class="carousel" aria-label="Carrossel de exemplo">
+          <div class="slides" id="slides">
+              <?php
+              $slides = [];
+              $preferred = ['slide1', 'slide2', 'slide3'];
+              foreach ($preferred as $name) {
+                  foreach (['jpg','jpeg','png','webp'] as $ext) {
+                      $path = __DIR__ . '/img/' . $name . '.' . $ext;
+                      if (file_exists($path)) {
+                          $slides[] = 'img/' . $name . '.' . $ext;
+                          break 2;
+                      }
+                  }
+              }
+
+              if (count($slides) < 3) {
+                  $files = glob(__DIR__ . '/img/*.{jpg,jpeg,png,webp}', GLOB_BRACE);
+                  foreach ($files as $f) {
+                      $basename = basename($f);
+                      if (in_array($basename, ['background2.jpg','no-image.png'])) continue;
+                      $url = 'img/' . $basename;
+                      if (!in_array($url, $slides)) $slides[] = $url;
+                      if (count($slides) >= 3) break;
+                  }
+              }
+
+              if (empty($slides)) {
+                  echo '<div class="slide"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#00fff2">Sem imagens no carrossel</div></div>';
+              } else {
+                  foreach ($slides as $s) {
+                      echo '<div class="slide"><img src="' . htmlspecialchars($s) . '" alt="Slide" /></div>';
+                  }
+              }
+              ?>
+          </div>
+      </div>
+      <div class="controls">
+          <button id="prev" class="small">◀</button>
+          <button id="next" class="small">▶</button>
+      </div>
+  </div>
+</div>
 <!-- JOGOS -->
 <div class="container content">
 <div class="text-center my-5">
@@ -136,7 +115,7 @@ if(mysqli_num_rows($result)>0){
                     if(strlen($desc)>100){
                         echo '<span class="short-desc">'.substr($desc,0,100).'...</span>';
                         echo '<span class="full-desc">'.substr($desc,100).'</span>';
-                        echo ' <a href="#" class="read-more">Leia mais</a>';
+                        echo ' <button type="button" class="read-more">Leia mais</button>';
                     }else{
                         echo $desc;
                     }

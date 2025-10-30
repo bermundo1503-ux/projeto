@@ -45,25 +45,32 @@ if(isset($_GET['message'])) {
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">Fase Bônus</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="index.php">Início</a></li>
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link active" href="index.php">Início</a></li>
                 <li class="nav-item"><a class="nav-link" href="create.php">Adicionar Jogo</a></li>
                 <li class="nav-item"><a class="nav-link" href="estoque.php">Estoque</a></li>
-                <li class="nav-item"><a class="nav-link active" href="usuarios.php">Usuários</a></li>
+                <li class="nav-item"><a class="nav-link" href="usuarios.php">Usuários</a></li>
             </ul>
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="carrinho.php">Carrinho</a></li>
-                <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="carrinho.php">Carrinho
+                        <span class="badge bg-info text-dark"><?php echo isset($_SESSION['carrinho']) ? count($_SESSION['carrinho']) : 0; ?></span>
+                    </a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="logout.php">Sair</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="container mt-5">
+<div class="container content mt-5">
     <h1 class="mb-4">Gerenciar Usuários</h1>
 
     <?php if ($message): ?>

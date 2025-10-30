@@ -68,22 +68,27 @@ if (!empty($_SESSION['carrinho'])) {
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">Fase Bônus</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="index.php">Continuar Comprando</a></li>
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="index.php">Início</a></li>
+                <li class="nav-item"><a class="nav-link" href="create.php">Adicionar Jogo</a></li>
+                <li class="nav-item"><a class="nav-link" href="estoque.php">Estoque</a></li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="carrinho.php">Carrinho</a></li>
                 <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="container mt-5">
+<div class="container content">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="display-5">Seu Carrinho</h1>
         <?php if (!empty($jogos_no_carrinho)): ?>

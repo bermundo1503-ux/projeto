@@ -39,35 +39,49 @@ if (!$jogo) {
 <head>
     <meta charset="UTF-8">
     <title>Editar Estoque</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Editar Estoque</h1>
-        <nav>
-            <ul>
-                <li><a href="index.php">Início</a></li>
-                <li><a href="create.php">Adicionar Jogo</a></li>
-                <li><a href="estoque.php">Estoque</a></li>
-                <li><a href="carrinho.php">Carrinho</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.php">Fase Bônus</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.php">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="create.php">Adicionar Jogo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="estoque.php">Estoque</a></li>
+                    <li class="nav-item"><a class="nav-link" href="usuarios.php">Usuários</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="carrinho.php">Carrinho
+                            <span class="badge bg-info text-dark"><?php echo isset($_SESSION['carrinho']) ? count($_SESSION['carrinho']) : 0; ?></span>
+                        </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <section class="hero">
+    <div class="container content py-5">
         <h2>Editar quantidade para: <?= htmlspecialchars($jogo['titulo']) ?></h2>
-    </section>
-
-    <div class="container">
-        <form method="POST" action="editar_estoque.php?id=<?= $jogo['id'] ?>">
-            <input type="number" name="quantidade" value="<?= $jogo['quantidade'] ?>" required min="0">
-            <button type="submit">Atualizar Estoque</button>
+        <form method="POST" action="editar_estoque.php?id=<?= $jogo['id'] ?>" class="mt-3">
+            <div class="mb-3">
+                <label for="quantidade" class="form-label">Quantidade</label>
+                <input type="number" id="quantidade" name="quantidade" value="<?= $jogo['quantidade'] ?>" required min="0" class="form-control input-compact">
+            </div>
+            <button type="submit" class="btn btn-primary">Atualizar Estoque</button>
+            <a href="estoque.php" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 
-    <footer>
+    <footer class="bg-dark text-white text-center p-3 mt-5">
         <p>&copy; 2025 Ber. Todos os direitos reservados.</p>
     </footer>
 </body>

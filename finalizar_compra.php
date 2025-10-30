@@ -56,26 +56,43 @@ try {
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Finalizar Compra</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <meta charset="UTF-8">
+        <title>Finalizar Compra</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Finalização da Compra</h1>
-        <nav>
-            <ul>
-                <li><a href="index.php">Início</a></li>
-                <li><a href="carrinho.php">Voltar ao Carrinho</a></li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.php">Fase Bônus</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.php">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="create.php">Adicionar Jogo</a></li>
+                        <li class="nav-item"><a class="nav-link" href="estoque.php">Estoque</a></li>
+                        <li class="nav-item"><a class="nav-link" href="usuarios.php">Usuários</a></li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="carrinho.php">Carrinho
+                                <span class="badge bg-info text-dark"><?php echo isset($_SESSION['carrinho']) ? count($_SESSION['carrinho']) : 0; ?></span>
+                            </a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="logout.php">Sair</a></li>
+                    </ul>
+                </div>
+            </div>
         </nav>
-    </header>
-    <div class="container">
-        <h2>Status da Compra</h2>
-        <p><?= $mensagem ?></p>
-        <a href="index.php">Continuar Comprando</a>
-    </div>
+
+        <div class="container content">
+            <h2>Status da Compra</h2>
+            <p><?= $mensagem ?></p>
+            <a href="index.php" class="btn btn-info text-dark fw-bold">Continuar Comprando</a>
+        </div>
     <footer>
         <p>&copy; 2025 Ber. Todos os direitos reservados.</p>
     </footer>

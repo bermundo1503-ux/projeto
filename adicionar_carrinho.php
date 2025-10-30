@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 // Estoque insuficiente
                 echo "Estoque insuficiente. Você tentou adicionar $quantidade, mas só temos $estoqueAtual em estoque (e você já tem $quantidadeNoCarrinho no carrinho).";
-                echo "<br><a href='index.php'>Voltar</a>";
+                echo "<br><a href='index.php' class='btn btn-info text-dark fw-bold'>Voltar</a>";
                 exit;
             }
         }

@@ -27,11 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (password_verify($senha, $user['senha'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['nome'];
-                
-                // Verifica se o email é o do administrador
-                if ($user['email'] === 'ber.mundo1503@gmail.com') {
-                    $_SESSION['is_admin'] = true;
-                }
+
+                // Marca is_admin com base no email usado no login (ajuste este email conforme o seu administrador)
+                $_SESSION['is_admin'] = ($email === 'ber.mundo1503@gmail.com');
 
                 header("Location: index.php");
                 exit();
@@ -51,43 +49,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Fase Bônus</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: #f8f9fa;
-        }
-        .main-content {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .login-container {
-            max-width: 400px;
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">Fase Bônus</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link active" href="index.php">Início</a></li>
+                <li class="nav-item"><a class="nav-link" href="create.php">Adicionar Jogo</a></li>
+                <li class="nav-item"><a class="nav-link" href="estoque.php">Estoque</a></li>
+                <li class="nav-item"><a class="nav-link" href="usuarios.php">Usuários</a></li>
+            </ul>
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="registrar.php">Registrar</a>
+                    <a class="nav-link" href="carrinho.php">Carrinho
+                        <span class="badge bg-info text-dark"><?php echo isset($_SESSION['carrinho']) ? count($_SESSION['carrinho']) : 0; ?></span>
+                    </a>
                 </li>
+                <li class="nav-item"><a class="nav-link" href="registrar.php">Registrar</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="main-content">
-    <div class="login-container p-4">
+<div class="container content">
+    <div class="login-container p-4 mx-auto">
         <div class="card">
             <div class="card-body">
                 <h1 class="card-title text-center mb-4">Login</h1>
