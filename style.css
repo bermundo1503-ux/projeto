@@ -12,6 +12,8 @@ body {
   font-family: 'Press Start 2P', cursive;
   color: #00fff2;
   text-shadow: 0 0 5px #00fff2;
+  padding-top: 80px; /* Espaço fixo para navbar */
+  padding-bottom: 80px; /* Espaço para o footer */
 }
 
 body::before {
@@ -45,7 +47,6 @@ body::after {
 }
 
 /* === NAVBAR RETRÔ === */
-/* --- Ajuste global para altura da navbar e espaçamento das páginas --- */
 .navbar {
   position: fixed;
   top: 0;
@@ -61,21 +62,172 @@ body::after {
   box-sizing: border-box;
 }
 
-/* Garantir que todo conteúdo abaixo da navbar tenha o mesmo deslocamento */
-body {
-  padding-top: 80px; /* espaço fixo para a navbar */
+.navbar .badge {
+  vertical-align: middle;
+  font-size: 0.8rem;
+  line-height: 1;
 }
 
-/* Para evitar margens extras nas páginas */
+/* Prevent navbar content from wrapping and enforce consistent alignment
+   across pages (fixes the stretched/taller navbar seen on create/index) */
+.navbar .navbar-brand,
+.navbar .nav-link {
+  white-space: nowrap;
+}
+
+.navbar .navbar-nav {
+  align-items: center;
+  margin-bottom: 0 !important; /* override Bootstrap's mb-2 on small screens */
+}
+
+.navbar .container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar .navbar-collapse {
+  /* don't override Bootstrap's display behavior; only set alignment
+     and let `.show` control visibility for the collapsed menu */
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* when the collapse is opened, make it flex so items align correctly */
+.navbar .navbar-collapse.show {
+  display: flex !important;
+}
+
+.navbar .navbar-toggler {
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Force a stable navbar height on desktop to avoid visual "stretching".
+   Keep flexible behavior on small screens so the collapse can expand vertically. */
+@media (min-width: 992px) {
+  .navbar {
+    height: 64px !important;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+  .navbar .navbar-brand,
+  .navbar .nav-link {
+    /* Use flex alignment to vertically center content reliably */
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    line-height: normal !important;
+  }
+
+  /* Ensure badge sits vertically centered inside the fixed height */
+  .navbar .badge {
+    line-height: 1.1;
+    transform: translateY(-1px);
+  }
+}
+
+@media (max-width: 991.98px) {
+  /* On smaller screens allow auto height so the collapsed menu can grow naturally */
+  .navbar {
+    height: auto !important;
+    min-height: 56px !important;
+  }
+
+  .navbar .navbar-brand,
+  .navbar .nav-link {
+    line-height: normal !important;
+    height: auto !important;
+    white-space: normal; /* allow wrapping in very small viewports inside collapsed menu */
+  }
+}
+
+/* === CONTEÚDO === */
 .content {
   margin-top: 0 !important;
+  flex: 1;
+  text-align: center;
 }
 
-/* Se quiser um pequeno respiro visual abaixo da navbar */
 main, .container {
   margin-top: 10px;
 }
 
+/* === CARROSSEL === */
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  aspect-ratio: 16 / 9; /* Mantém proporção sem esticar */
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 0 auto 40px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slides {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.45s ease;
+}
+
+.slide {
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mantém proporção real das imagens */
+  display: block;
+  border-radius: 8px;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+button.small {
+  padding: 6px 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #00fff2;
+  color: #000;
+  cursor: pointer;
+  font-family: 'Press Start 2P', cursive;
+}
+
+button.small:hover {
+  background-color: #02c1c1;
+  color: #fff;
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+  .carousel {
+    aspect-ratio: 16 / 10;
+    max-width: 95%;
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel {
+    aspect-ratio: 1 / 1;
+    max-width: 90%;
+  }
+}
 
 /* === CARDS DOS JOGOS === */
 .card {
@@ -115,6 +267,23 @@ input:focus, textarea:focus {
   box-shadow: 0 0 10px #00fff2;
 }
 
+/* Compact input */
+.input-compact {
+  width: 50px;
+  padding: 2px 4px;
+  font-size: 10px;
+  border: 2px solid #00fff2;
+  border-radius: 3px;
+  background-color: rgba(0,0,0,0.9);
+  color: #00fff2;
+  text-align: center;
+}
+
+.input-compact:focus {
+  box-shadow: 0 0 8px #00fff2;
+  outline: none;
+}
+
 /* === BOTÕES === */
 button {
   background-color: #00fff2;
@@ -135,6 +304,16 @@ button:hover {
   transform: scale(1.05);
 }
 
+/* === LEIA MAIS === */
+.full-desc { display: none; }
+
+.read-more {
+  color: #5280e4;
+  cursor: pointer;
+  font-size: 10px;
+  text-decoration: underline;
+}
+
 /* === RODAPÉ === */
 footer {
   background-color: rgba(0, 0, 0, 0.95);
@@ -145,71 +324,85 @@ footer {
   letter-spacing: 1px;
   padding: 15px 0;
   text-shadow: 0 0 10px #00fff2;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
 }
-/* ==== NOTE ====
-   Inputs and textareas are defined once (above) to be responsive.
-   Keep small/compact inputs using the .input-compact class below.
-*/
-/* Caixa de quantidade compacta */
-.input-compact {
-    width: 50px;           /* Largura menor */
-    padding: 2px 4px;      /* Padding reduzido */
-    font-size: 10px;       /* Fonte menor */
-    border: 2px solid #00fff2;
-    border-radius: 3px;
-    background-color: rgba(0,0,0,0.9);
-    color: #00fff2;
-    text-align: center;
+footer a {
+  color: #00fff2;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-.input-compact:focus {
-    box-shadow: 0 0 8px #00fff2;
-    outline: none;
-}
-/* Caixa de quantidade compacta */
-.input-compact {
-    width: 50px;
-    padding: 2px 4px;
-    font-size: 10px;
-    border: 2px solid #00fff2;
-    border-radius: 3px;
-    background-color: rgba(0,0,0,0.9);
-    color: #00fff2;
-    text-align: center;
+/* Further refinements: slightly smaller fonts and tighter paddings on large screens
+   to avoid the header looking oversized when using the retro font */
+@media (min-width: 992px) {
+  .navbar {
+    font-size: 11px !important;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 12px !important;
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  .navbar .nav-link {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0.35rem !important;
+    padding-right: 0.35rem !important;
+    font-size: 10px !important;
+  }
+
+  .navbar .navbar-collapse {
+    height: 100% !important;
+  }
 }
 
-.input-compact:focus {
-    box-shadow: 0 0 8px #00fff2;
-    outline: none;
+/* Strong overrides for desktop navbar to avoid any extra vertical space */
+@media (min-width: 992px) {
+  nav.navbar.navbar-expand-lg.fixed-top {
+    height: 48px !important;
+    min-height: 48px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    /* allow collapsed menu to expand outside the fixed navbar */
+    overflow: visible !important;
+  }
+
+  nav.navbar.navbar-expand-lg.fixed-top .navbar-brand {
+    height: 48px !important;
+    line-height: 48px !important;
+    display: inline-block !important;
+    font-size: 12px !important;
+  }
+
+  nav.navbar.navbar-expand-lg.fixed-top .navbar-nav .nav-link {
+    height: 48px !important;
+    line-height: 48px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    font-size: 10px !important;
+  }
 }
 
-/* Leia mais */
-.full-desc { display: none; }
-
-.read-more {
-  color: #5280e4;
-    cursor: pointer;
-    font-size: 10px;
-    text-decoration: underline;
+/* Small-screen collapse behavior: let Bootstrap show the collapse as block
+   and keep it visually simple (no giant background box). */
+.navbar .navbar-collapse.show {
+  display: block !important;
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  background: transparent !important;
+  padding: 0 !important;
+  z-index: 10001 !important;
 }
-  
-/* === CARROSSEL (slides com imagens) === */
-.carousel { position:relative; height:420px; overflow:hidden; border-radius:8px; margin-bottom:40px; }
-.slides { display:flex; height:100%; transition:transform .45s ease; }
-.slide { min-width:100%; display:flex; align-items:center; justify-content:center; }
-.slide img { width:100%; height:100%; object-fit:cover; display:block; border-radius:8px; }
-.controls { display:flex; gap:8px; justify-content:center; margin-top:8px; }
-button.small { padding:6px 12px; font-size:16px; border:none; border-radius:4px; background-color:#00fff2; color:#000; cursor:pointer; font-family:'Press Start 2P',cursive; }
-button.small:hover { background-color:#02c1c1; color:#fff; }
 
-/* Ensure badges and brand don't push navbar height */
+/* Make the cart badge slightly smaller on desktop */
 .navbar .badge {
-  vertical-align: middle;
-  font-size: 0.8rem;
-  line-height: 1;
-}
-
-/* Ajuste responsivo: carrossel menor em telas pequenas */
-@media (max-width: 576px) {
-  .carousel { height:220px; }
+  font-size: 0.65rem;
 }
