@@ -30,6 +30,7 @@ include 'conn.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -64,9 +65,10 @@ include 'conn.php';
         </div>
     </nav>
 
-    <div class="container content mt-5 pt-4">
-        <div class="carousel-container">
-            <?php
+   <div class="container content mt-5 pt-4">
+    <!-- CORREÇÃO 1: Renomeada para a classe correta do CSS (.carousel) -->
+    <div class="carousel"> 
+        <?php
             // Buscar imagens do carrossel
             $carousel_images = [];
 
@@ -100,9 +102,11 @@ include 'conn.php';
 
             if (!empty($carousel_images)) :
             ?>
-                <div class="carousel-slides" id="carouselSlides">
+                <!-- CORREÇÃO 2: Renomeada para a classe correta do CSS (.slides) -->
+                <div class="slides" id="carouselSlides"> 
                     <?php foreach ($carousel_images as $img): ?>
-                        <div class="carousel-slide">
+                        <!-- CORREÇÃO 3: Renomeada para a classe correta do CSS (.slide) -->
+                        <div class="slide">
                             <img src="<?php echo htmlspecialchars($img); ?>" alt="Slide do Carrossel">
                         </div>
                     <?php endforeach; ?>
@@ -115,17 +119,18 @@ include 'conn.php';
 
                 <div class="carousel-indicators" id="carouselIndicators">
                     <?php foreach ($carousel_images as $index => $img): ?>
-                        <span data-slide="<?php echo $index; ?>" class="<?php echo $index === 0 ? 'active' : ''; ?>"></span>
+                        <button data-slide="<?php echo $index; ?>" class="<?php echo $index === 0 ? 'active' : ''; ?>"></button>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
                 <div class="carousel-no-images">
-                    ⚠️ Nenhuma imagem encontrada no carrossel<br>
+                     Nenhuma imagem encontrada no carrossel<br>
                     <small style="font-size: 14px; margin-top: 10px;">Adicione imagens chamadas slide1.jpg, slide2.jpg e slide3.jpg na pasta /img/</small>
                 </div>
             <?php endif; ?>
-        </div>
     </div>
+</div>
+
 
     <div class="container content">
         <div class="text-center my-5">
@@ -135,24 +140,18 @@ include 'conn.php';
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <?php
-            // MUDANÇA DE SEGURANÇA CRÍTICA: Uso de Prepared Statements para todas as consultas SQL.
-            // Embora esta consulta não tenha entrada do usuário, ela demonstra a boa prática.
-
+            
             $sql = "SELECT * FROM jogos WHERE quantidade > 0 ORDER BY id DESC";
             $result = null;
 
             if ($stmt = mysqli_prepare($conn, $sql)) {
-                // Não há parâmetros de input do usuário para fazer o bind neste SELECT,
-                // mas em arquivos como 'edit.php' ou 'adicionar_carrinho.php', eles seriam necessários.
-                // Ex: mysqli_stmt_bind_param($stmt, "i", $user_id); 
-
+            
                 mysqli_stmt_execute($stmt);
                 $result = mysqli_stmt_get_result($stmt);
 
                 if ($result && mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        // RECOMENDAÇÃO DE SEGURANÇA 3: Todas as saídas de dados já estão protegidas com htmlspecialchars.
-                        // Isso previne Cross-Site Scripting (XSS).
+                        
             ?>
                         <div class="col">
                             <div class="card h-100 shadow-sm">
@@ -187,30 +186,32 @@ include 'conn.php';
                             </div>
                         </div>
             <?php
-                    } // Fim do while loop
+                    } 
                 } else {
                     echo '<p class="text-center text-light">Nenhum jogo disponível no momento.</p>';
                 }
 
-                // Fechar o Statement para liberar recursos
+            
                 mysqli_stmt_close($stmt);
             } else {
-                // Em caso de erro na preparação da query
+                
                 echo '<p class="text-center text-danger">Erro de banco de dados. Tente novamente mais tarde.</p>';
-                // Log do erro para o administrador, NUNCA mostre o erro completo ao usuário final
-                // error_log("Erro ao preparar SELECT jogos: " . mysqli_error($conn)); 
+               
             }
             ?>
         </div>
     </div>
+<body class="d-flex flex-column vh-100">
+    <main class="flex-shrink-0">
+        </main>
 
-    <footer class="bg-dark text-white text-center p-3 mt-5">
+    <footer class="footer mt-auto bg-dark text-white text-center p-3">
         <p>&copy; <?php echo date('Y'); ?> - Ber. Todos os direitos reservados.</p>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ========== CARROSSEL ==========
+      
         const carouselSlides = document.getElementById('carouselSlides');
         const carouselIndicators = document.getElementById('carouselIndicators');
 
@@ -220,12 +221,12 @@ include 'conn.php';
             let currentIndex = 0;
             let autoPlayInterval;
 
-            // Função para mostrar slide
+          
             function showSlide(index) {
                 currentIndex = (index + totalSlides) % totalSlides;
                 carouselSlides.style.transform = `translateX(-${currentIndex * 100}%)`;
 
-                // Atualizar indicadores
+                
                 if (carouselIndicators) {
                     const indicators = carouselIndicators.children;
                     for (let i = 0; i < indicators.length; i++) {
@@ -234,7 +235,7 @@ include 'conn.php';
                 }
             }
 
-            // Botão próximo
+           
             const nextBtn = document.getElementById('nextBtn');
             if (nextBtn) {
                 nextBtn.addEventListener('click', () => {
@@ -243,7 +244,7 @@ include 'conn.php';
                 });
             }
 
-            // Botão anterior
+        
             const prevBtn = document.getElementById('prevBtn');
             if (prevBtn) {
                 prevBtn.addEventListener('click', () => {
@@ -252,7 +253,7 @@ include 'conn.php';
                 });
             }
 
-            // Indicadores
+           
             if (carouselIndicators) {
                 const indicators = carouselIndicators.children;
                 for (let i = 0; i < indicators.length; i++) {
@@ -263,11 +264,11 @@ include 'conn.php';
                 }
             }
 
-            // Auto-play
+           
             function startAutoPlay() {
                 autoPlayInterval = setInterval(() => {
                     showSlide(currentIndex + 1);
-                }, 4000); // Muda a cada 4 segundos
+                }, 4000); 
             }
 
             function resetAutoPlay() {
@@ -275,7 +276,6 @@ include 'conn.php';
                 startAutoPlay();
             }
 
-            // Pausar ao passar o mouse
             carouselSlides.parentElement.addEventListener('mouseenter', () => {
                 clearInterval(autoPlayInterval);
             });
@@ -284,12 +284,12 @@ include 'conn.php';
                 startAutoPlay();
             });
 
-            // Iniciar auto-play
+            
             if (totalSlides > 1) {
                 startAutoPlay();
             }
 
-            // Suporte para toque (mobile)
+           
             let touchStartX = 0;
             let touchEndX = 0;
 
@@ -309,7 +309,6 @@ include 'conn.php';
             });
         }
 
-        // ========== LEIA MAIS ==========
         document.querySelectorAll('.read-more').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();

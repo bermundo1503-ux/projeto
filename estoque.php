@@ -62,6 +62,7 @@ if (isset($_GET['message'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -164,9 +165,14 @@ if (isset($_GET['message'])) {
         </div>
     </div>
 
-    <footer class="bg-dark text-white text-center p-3 mt-5">
-        <p>&copy; <?php echo date('Y'); ?> Ber. Todos os direitos reservados.</p>
+    <body class="d-flex flex-column vh-100">
+    <main class="flex-shrink-0">
+        </main>
+
+    <footer class="footer mt-auto bg-dark text-white text-center p-3">
+        <p>&copy; <?php echo date('Y'); ?> - Ber. Todos os direitos reservados.</p>
     </footer>
+</body>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

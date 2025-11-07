@@ -43,35 +43,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar - Fase Bônus</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow neon-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">🎮 Fase Bônus</a>
 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="index.php">Fase Bônus</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link active" href="index.php">Início</a></li>
-                <li class="nav-item"><a class="nav-link" href="create.php">Adicionar Jogo</a></li>
-                <li class="nav-item"><a class="nav-link" href="estoque.php">Estoque</a></li>
-                <li class="nav-item"><a class="nav-link" href="usuarios.php">Usuários</a></li>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="carrinho.php">Carrinho
-                        <span class="badge bg-info text-dark"><?php echo isset($_SESSION['carrinho']) ? count($_SESSION['carrinho']) : 0; ?></span>
-                    </a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-            </ul>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav mx-auto text-center">
+                    <li class="nav-item"><a class="nav-link active" href="index.php">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="create.php">Adicionar Jogo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="estoque.php">Estoque</a></li>
+                    <li class="nav-item"><a class="nav-link" href="usuarios.php">Usuários</a></li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto text-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="carrinho.php">Carrinho
+                            <span class="badge bg-info text-dark">
+                                <?php echo isset($_SESSION['carrinho']) ? count($_SESSION['carrinho']) : 0; ?>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php">Sair</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 <div class="container content py-5">
     <div class="register-container p-4 mx-auto">
@@ -95,13 +101,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="email" class="form-label">Email:</label>
                         <input type="email" id="email" name="email" class="form-control" required value="<?= htmlspecialchars($email ?? '') ?>">
                     </div>
+                    
                     <div class="mb-3">
                         <label for="senha" class="form-label">Senha:</label>
-                        <input type="password" id="senha" name="senha" class="form-control" required>
+                        <div class="input-group"> 
+                            <input type="password" id="senha" name="senha" class="form-control" required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="bi bi-eye-slash" data-target="senha"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="confirmar_senha" class="form-label">Confirmar Senha:</label>
-                        <input type="password" id="confirmar_senha" name="confirmar_senha" class="form-control" required>
+                        <div class="input-group">
+                            <input type="password" id="confirmar_senha" name="confirmar_senha" class="form-control" required>
+                            <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                <i class="bi bi-eye-slash" data-target="confirmar_senha"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">Registrar</button>
@@ -121,5 +138,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function setupPasswordToggle(buttonId, inputId) {
+        const toggleButton = document.getElementById(buttonId);
+        const passwordInput = document.getElementById(inputId);
+        const eyeIcon = toggleButton.querySelector('i');
+
+        toggleButton.addEventListener('click', function () {
+            // Alterna o atributo 'type' entre 'password' e 'text'
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            // Alterna o ícone (olho aberto / olho fechado)
+            if (type === 'text') {
+                eyeIcon.classList.remove('bi-eye-slash'); // Remove olho fechado
+                eyeIcon.classList.add('bi-eye'); // Adiciona olho aberto
+            } else {
+                eyeIcon.classList.remove('bi-eye'); // Remove olho aberto
+                eyeIcon.classList.add('bi-eye-slash'); // Adiciona olho fechado
+            }
+        });
+    }
+
+    // Configura o 'olhinho' para o campo Senha
+    setupPasswordToggle('togglePassword', 'senha');
+    
+    // Configura o 'olhinho' para o campo Confirmar Senha
+    setupPasswordToggle('toggleConfirmPassword', 'confirmar_senha');
+</script>
+
 </body>
 </html>

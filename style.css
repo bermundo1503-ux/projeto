@@ -1,316 +1,370 @@
-/* === BASE === */
+/* === FUNDO RETRÔ === */
 body {
-  margin: 0;
-  padding: 60px 0 80px; /* Espaço para navbar e footer */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  font-family: 'Press Start 2P', cursive;
-  color: #00fff2;
-  text-shadow: 0 0 5px #00fff2;
-  background: url('img/background2.jpg') center/cover fixed no-repeat;
+    margin: 0;
+    padding: 0;
+    padding-top: 80px; /* espaço pra navbar */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    /* Estilo do Fundo */
+    background-image: url('img/background2.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+
+    /* Estilo do Texto */
+    font-family: 'Press Start 2P', cursive;
+    color: #00fff2;
+    text-shadow: 0 0 6px #00fff2;
 }
 
 body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 10, 0.85);
-  z-index: -1;
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 10, 0.88);
+    z-index: -1;
 }
 
+/* === EFEITO CRT (Linhas de Varredura) === */
 body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(to bottom,
-    rgba(255, 255, 255, 0.03) 0,
-    rgba(255, 255, 255, 0.03) 1px,
-    transparent 3px);
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* === CONTEÚDO CENTRAL === */
-.content {
-  flex: 1;
-  max-width: 1200px;
-  width: calc(100% - 40px);
-  margin: 0 auto;
-  padding: 20px 20px 40px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.container.content {
-  padding: 0 0.5rem;
-}
-
-/* === LOGIN === */
-.login-container {
-  max-width: 420px;
-  width: 100%;
-  margin: 6rem auto 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 3px
+    );
+    pointer-events: none;
+    z-index: 10001; /* Alto o suficiente para estar acima de tudo, exceto talvez modais */
 }
 
 /* === NAVBAR === */
 .navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  min-height: 60px;
-  padding: 0.5rem 1rem;
-  display: flex;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.95);
-  border-bottom: 3px solid #00fff2;
-  box-shadow: 0 0 20px #00fff2;
-  z-index: 10000;
-  box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-height: 60px;
+    padding: 0.5rem 1rem !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: rgba(0, 0, 0, 0.95) !important;
+    border-bottom: 3px solid #00fff2;
+    box-shadow: 0 0 20px #00fff2;
+    z-index: 10000;
 }
 
-.navbar .container-fluid,
-.navbar .navbar-collapse {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Ícone hambúrguer */
+/* ALTERAÇÕES AQUI para o botão contêiner */
+.navbar-toggler {
+    border: none !important;
+    background: transparent !important;
+    outline: none !important;
+    padding: 0 !important; 
+    width: 40px; 
+    height: 35px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.navbar .navbar-brand,
-.navbar .nav-link {
-  white-space: nowrap;
+/* O "ícone" em si (Linha do meio) */
+.navbar-toggler-icon {
+    position: relative;
+    display: block; 
+    height: 3px;
+    background-color: #00fff2;
+    border-radius: 2px;
+    transition: 0.3s;
+    
+    /* MODIFICADO: Largura menor para o efeito flutuante */
+    width: 25px; 
+    margin: 0 auto; 
 }
 
-.navbar .navbar-nav {
-  align-items: center;
-  margin-bottom: 0;
+/* Pseudo-elementos (Linha de cima e de baixo) */
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    content: '';
+    position: absolute;
+    height: 3px;
+    background-color: #00fff2;
+    border-radius: 2px;
+    transition: 0.3s;
+    left: 50%; /* Centraliza os pseudo-elementos */
+    transform: translateX(-50%);
 }
 
-.navbar .badge {
-  font-size: 0.65rem;
-  transform: translateY(-1px);
+.navbar-toggler-icon::before {
+    /* MODIFICADO: Linha de cima (um pouco mais longa) */
+    width: 30px; 
+    top: -10px; /* Separar um pouco mais */
+}
+.navbar-toggler-icon::after {
+    /* MODIFICADO: Linha de baixo (um pouco mais curta) */
+    width: 20px; 
+    top: 10px; /* Separar um pouco mais */
 }
 
-/* === NAVBAR RESPONSIVO === */
-@media (min-width: 992px) {
-  .navbar {
-    height: 48px;
-    font-size: 11px;
-  }
-
-  .navbar .navbar-brand {
-    font-size: 12px;
-    padding: 0 0.35rem;
-  }
-
-  .navbar .nav-link {
-    font-size: 10px;
-    padding: 0 0.35rem;
-  }
+/* Efeito Hover */
+.navbar-toggler:hover .navbar-toggler-icon,
+.navbar-toggler:hover .navbar-toggler-icon::before,
+.navbar-toggler:hover .navbar-toggler-icon::after {
+    background-color: #02c1c1;
+    box-shadow: 0 0 5px #02c1c1; /* Adiciona brilho no hover */
 }
 
-@media (max-width: 991.98px) {
-  .navbar {
-    min-height: 56px;
-  }
+/* === CONTEÚDO === */
+.content {
+    flex: 1;
+    text-align: center;
+}
 
-  .navbar .navbar-brand,
-  .navbar .nav-link {
-    white-space: normal;
-  }
+main, .container {
+    margin-top: 10px;
+}
 
-  .navbar .navbar-collapse.show {
-    display: block;
-    background: transparent;
+/* =========================
+   CARROSSEL (CORRIGIDO)
+   ========================= */
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: #000;
+    box-shadow: 0 0 30px rgba(0,255,242,0.3);
+    /* CORREÇÃO 1: Aumentado o aspect-ratio para 16/9, que é mais alto que 16/7 */
+    aspect-ratio: 16 / 9; 
+}
+
+/* Container dos slides */
+.slides {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+    gap: 0; /* remove qualquer espaço entre slides */
+    transition: transform 0.5s ease;
+}
+
+/* Cada slide ocupa 100% da largura do container */
+.slide {
+    flex: 0 0 100%;
+    height: 100%;
+    margin: 0;
     padding: 0;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* === CARROSSEL === */
-.carousel-container {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 12px;
-  border-radius: 20px;
-  background-color: #000;
-  box-shadow: 0 10px 30px rgba(0, 255, 242, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+/* Imagem dentro do slide */
+.slide img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* CORREÇÃO 2: Alterado de 'cover' para 'contain'. 
+        'contain' garante que a imagem inteira apareça, sem cortes. */
+    object-fit: contain;
+    border-radius: 12px;
+    transition: transform 0.4s ease;
 }
 
-.carousel-slides {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+/* Efeito suave no hover */
+.slide img:hover {
+    transform: scale(1.02);
 }
 
-.carousel-slide {
-  min-width: 100%;
-  padding: 20px;
-  background-color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.carousel-slide img {
-  max-width: 100%;
-  max-height: 600px;
-  object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-}
-
+/* Controles (botões anterior/próximo) */
 .carousel-controls {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-between;
-  transform: translateY(-50%);
-  pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px;
+    pointer-events: none;
 }
 
 .carousel-controls button {
-  pointer-events: all;
-  width: 60px;
-  height: 60px;
-  font-size: 28px;
-  border-radius: 50%;
-  background: rgba(0, 255, 242, 0.9);
-  color: #000;
-  border: none;
-  cursor: pointer;
-  transition: 0.25s;
+    pointer-events: all;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(0,255,242,0.85);
+    color: #000;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0,255,242,0.3);
+    transition: all 0.2s ease;
 }
 
 .carousel-controls button:hover {
-  background: #00fff2;
-  transform: scale(1.12);
+    background-color: #02c1c1;
+    transform: scale(1.1);
 }
 
+/* Indicadores (bolinhas) */
 .carousel-indicators {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
 }
 
-.carousel-indicators span {
-  width: 14px;
-  height: 14px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: 0.25s;
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.carousel-indicators span.active {
-  background: #00fff2;
-  width: 40px;
-  height: 14px;
-  border-radius: 8px;
+.carousel-indicators button.active {
+    width: 30px;
+    border-radius: 6px;
+    background: #00fff2;
 }
 
-.carousel-no-images {
-  height: 600px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  color: #00fff2;
-  font-size: 20px;
-  border-radius: 20px;
+/* Responsividade */
+@media (max-width: 992px) {
+    /* Manter 16/9 para telas menores que 992px */
+    .carousel { aspect-ratio: 16 / 9; }
 }
+
+@media (max-width: 576px) {
+    /* Usar 4/3 para telas de celular, deixando a imagem mais quadrada */
+    .carousel { aspect-ratio: 4 / 3; }
+}
+
 
 /* === CARDS === */
 .card {
-  background-color: rgba(0, 0, 0, 0.85);
-  color: #00fff2;
-  border: 2px solid #00fff2;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 255, 242, 0.2);
-  text-align: left;
-  transition: transform 0.2s, box-shadow 0.2s;
+    background-color: rgba(0, 0, 0, 0.85);
+    border: 2px solid #00fff2;
+    border-radius: 10px;
+    color: #00fff2;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(0, 255, 242, 0.2);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 20px #00fff2;
+    transform: scale(1.03);
+    box-shadow: 0 0 20px #00fff2;
 }
 
 .card-title {
-  color: #00fff2;
-  text-shadow: 0 0 8px #00fff2;
+    color: #00fff2;
+    text-shadow: 0 0 8px #00fff2;
 }
 
-/* === FORMULÁRIOS === */
-input,
-textarea {
-  width: 100%;
-  padding: 8px;
-  font-size: 10px;
-  font-family: 'Press Start 2P', cursive;
-  background-color: rgba(0, 0, 0, 0.9);
-  border: 2px solid #00fff2;
-  border-radius: 4px;
-  color: #00fff2;
-  outline: none;
+/* === INPUTS === */
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 2px solid #00fff2;
+    color: #00fff2;
+
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10px;
 }
 
-input:focus,
-textarea:focus {
-  box-shadow: 0 0 10px #00fff2;
+input:focus, textarea:focus {
+    box-shadow: 0 0 10px #00fff2;
 }
 
+/* Input compacto */
 .input-compact {
-  width: 50px;
-  padding: 2px 4px;
-  font-size: 10px;
-  text-align: center;
-  border: 2px solid #00fff2;
-  border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.9);
-  color: #00fff2;
+    width: 50px;
+    padding: 2px 4px;
+    text-align: center;
+    border-radius: 3px;
+
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 2px solid #00fff2;
+    color: #00fff2;
+
+    font-size: 10px;
+}
+
+.input-compact:focus {
+    box-shadow: 0 0 8px #00fff2;
+    outline: none;
 }
 
 /* === BOTÕES === */
 button {
-  padding: 10px 15px;
-  font-size: 10px;
-  font-family: 'Press Start 2P', cursive;
-  text-transform: uppercase;
-  background-color: #00fff2;
-  color: #000;
-  border: none;
-  border-radius: 4px;
-  transition: 0.2s;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+
+    background-color: #00fff2;
+    color: #000;
+
+    font-size: 10px;
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out;
 }
 
 button:hover {
-  background-color: #02c1c1;
-  color: #fff;
-  box-shadow: 0 0 15px #00fff2;
-  transform: scale(1.05);
+    background-color: #02c1c1;
+    color: #fff;
+    box-shadow: 0 0 15px #00fff2;
+    transform: scale(1.05);
 }
 
 /* === LEIA MAIS === */
 .full-desc {
-  display: none;
+    display: none;
 }
 
 .read-more {
-  font-size: 10px;
-  color: #5280e4
+    color: #5280e4;
+    cursor: pointer;
+    font-size: 10px;
+    text-decoration: underline;
+}
+
+/* === RODAPÉ === */
+footer {
+    position: relative; /* para que não cubra o conteúdo */
+    margin-top: 60px;
+    padding: 15px 0;
+
+    background-color: rgba(0, 0, 0, 0.95);
+    border-top: 3px solid #00fff2;
+    box-shadow: 0 -5px 20px rgba(0, 255, 242, 0.3);
+
+    color: #00fff2;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px #00fff2;
+}
+
+footer p {
+    margin: 0;
+}

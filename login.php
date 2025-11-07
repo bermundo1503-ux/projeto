@@ -50,8 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Fase Bônus</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -99,9 +101,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <label for="email" class="form-label">Email:</label>
                             <input type="email" id="email" name="email" class="form-control" required>
                         </div>
+                        
                         <div class="mb-3">
                             <label for="senha" class="form-label">Senha:</label>
-                            <input type="password" id="senha" name="senha" class="form-control" required>
+                            <div class="input-group"> 
+                                <input type="password" id="senha" name="senha" class="form-control" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword" title="Mostrar/Ocultar Senha">
+                                    <i class="bi bi-eye-slash" id="eyeIcon"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Entrar</button>
@@ -120,6 +128,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Pega os elementos do DOM
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('senha');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        // Adiciona um listener para o clique no botão
+        togglePassword.addEventListener('click', function () {
+            // Alterna o atributo 'type' entre 'password' e 'text'
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            // Alterna o ícone (olho aberto / olho fechado)
+            if (type === 'text') {
+                eyeIcon.classList.remove('bi-eye-slash'); // Remove olho fechado
+                eyeIcon.classList.add('bi-eye'); // Adiciona olho aberto
+            } else {
+                eyeIcon.classList.remove('bi-eye'); // Remove olho aberto
+                eyeIcon.classList.add('bi-eye-slash'); // Adiciona olho fechado
+            }
+        });
+    </script>
 </body>
 
 </html>
