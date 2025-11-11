@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -26,20 +27,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Se uma nova imagem for enviada
         if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] == 0) {
             $imagem = file_get_contents($_FILES['imagem']['tmp_name']);
-            $tipo = $_FILES['imagem']['type'];
+            $tipo = $_FILES['imagem']['type'] ?: 'image/jpeg';
+
             $stmt = $conn->prepare("UPDATE jogos SET titulo = ?, descricao = ?, preco = ?, quantidade = ?, imagem = ?, imagem_tipo = ? WHERE id = ?");
-            $stmt->bind_param("ssdisbi", $titulo, $descricao, $preco, $quantidade, $imagem, $tipo, $id);
-            $stmt->send_long_data(4, $imagem);
+            if ($stmt === false) {
+                $error = "Erro na preparação da consulta: " . $conn->error;
+            } else {
+                // tipos: s (titulo), s (descricao), d (preco), i (quantidade), s (imagem blob), s (imagem_tipo), i (id)
+                $stmt->bind_param("ssdissi", $titulo, $descricao, $preco, $quantidade, $imagem, $tipo, $id);
+            }
         } else {
             // Se nenhuma imagem for enviada, mantenha a existente
             $stmt = $conn->prepare("UPDATE jogos SET titulo = ?, descricao = ?, preco = ?, quantidade = ? WHERE id = ?");
-            $stmt->bind_param("ssdii", $titulo, $descricao, $preco, $quantidade, $id);
+            if ($stmt === false) {
+                $error = "Erro na preparação da consulta: " . $conn->error;
+            } else {
+                $stmt->bind_param("ssdii", $titulo, $descricao, $preco, $quantidade, $id);
+            }
         }
 
-        if ($stmt->execute()) {
-            $message = "Jogo atualizado com sucesso! <a href='estoque.php' class='alert-link'>Voltar para o estoque</a>.";
-        } else {
-            $error = "Erro ao atualizar o jogo: " . $stmt->error;
+        if (isset($stmt) && $stmt !== false) {
+            if ($stmt->execute()) {
+                // Redireciona para a mesma página com timestamp para forçar recarregamento da imagem
+                header("Location: edit.php?id=" . urlencode($id) . "&t=" . time());
+                exit();
+            } else {
+                $error = "Erro ao atualizar o jogo: " . $stmt->error;
+            }
+            $stmt->close();
         }
     } else {
         $error = "Por favor, preencha todos os campos corretamente.";
@@ -52,6 +67,7 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
 $game = $result->fetch_assoc();
+$stmt->close();
 
 if (!$game) {
     header("Location: estoque.php");
@@ -139,7 +155,7 @@ if (!$game) {
                     <div class="mb-3">
                         <label class="form-label">Imagem Atual</label>
                         <div>
-                            <img src="imagem.php?id=<?= $id ?>" alt="Imagem atual" class="img-thumbnail" style="max-width: 150px;">
+                            <img src="imagem.php?id=<?= $id ?>&t=<?= isset($_GET['t']) ? (int)$_GET['t'] : time() ?>" alt="Imagem atual" class="img-thumbnail" style="max-width: 150px;">
                         </div>
                     </div>
                     <div class="mb-3">
