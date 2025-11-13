@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -12,9 +11,13 @@ if (!$id || !is_numeric($id)) {
     header("Location: estoque.php");
     exit();
 }
-
 $message = '';
 $error = '';
+
+// Recebe a mensagem de sucesso da URL (adicionada após o redirecionamento corrigido)
+if (isset($_GET['message'])) {
+    $message = htmlspecialchars($_GET['message']);
+}
 
 // Processar o formulário de atualização
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -27,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Se uma nova imagem for enviada
         if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] == 0) {
             $imagem = file_get_contents($_FILES['imagem']['tmp_name']);
-            $tipo = $_FILES['imagem']['type'] ?: 'image/jpeg';
+            // Tenta obter o tipo de arquivo, ou usa jpeg como fallback
+            $tipo = $_FILES['imagem']['type'] ?: 'image/jpeg'; 
 
             $stmt = $conn->prepare("UPDATE jogos SET titulo = ?, descricao = ?, preco = ?, quantidade = ?, imagem = ?, imagem_tipo = ? WHERE id = ?");
             if ($stmt === false) {
@@ -48,8 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (isset($stmt) && $stmt !== false) {
             if ($stmt->execute()) {
-                // Redireciona para a mesma página com timestamp para forçar recarregamento da imagem
-                header("Location: edit.php?id=" . urlencode($id) . "&t=" . time());
+                // 🏆 CORREÇÃO: Redireciona para a mesma página, AGORA INCLUINDO A MENSAGEM DE SUCESSO na URL
+                $success_message = urlencode("Jogo alterado com sucesso!");
+                header("Location: edit.php?id=" . urlencode($id) . "&message=" . $success_message . "&t=" . time());
                 exit();
             } else {
                 $error = "Erro ao atualizar o jogo: " . $stmt->error;
