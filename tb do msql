@@ -1,0 +1,53 @@
+CREATE TABLE `usuarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `senha` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `jogos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(255) DEFAULT NULL,
+  `descricao` text,
+  `imagem` longblob,
+  `imagem_tipo` varchar(255) DEFAULT NULL,
+  `quantidade` int NOT NULL DEFAULT '0',
+  `preco` decimal(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+INSERT INTO jogos (id, titulo, descricao, imagem, imagem_tipo, quantidade) VALUES
+(1, 'Bully', 'Gênero: Jogo de ação-aventura em terceira pessoa. 
+Desenvolvedora: Rockstar   Vancouver. 
+Plataformas: Lançado originalmente para PlayStation 2, e posteriormente para Wii, Xbox 360 e PC como "Bully: Scholarship Edition". 
+Cenário: O jogo passa-se numa escola interna (colégio). 
+Sinopse: O jogador assume o papel de Jimmy Hopkins, um adolescente que tem de navegar pelas regras e disputas da escola. ', LOAD_FILE('C:/xampp/htdocs/img/bully.jpg'), 'image/jpeg', 110),
+(6, 'Grand Theft Auto V', 'Grand Theft Auto V é um jogo eletrônico de ação e aventura desenvolvido pela Rockstar North e   publicado pela Rockstar Games. É o sétimo título principal da série Grand Theft Auto e foi lançado originalmente em 17 de setembro de 2013 para PlayStation 3 e Xbox 360, com remasterizações lançadas em 2014 para PlayStation 4 e Xbox One, em 2015 para Microsoft Windows e em 2022 para PlayStation 5 e Xbox Series X/S. O jogo se passa no estado ficcional de San Andreas, com a história da campanha um jogador seguindo três criminosos e seus esforços para realizarem assaltos sob a pressão de uma agência governamental. O mundo aberto permite que os jogadores naveguem livremente pelas áreas rurais e urbanas de San Andreas.
+
+A jogabilidade é mostrada em uma perspectiva de primeira ou terceira pessoa e o mundo pode ser atravessado a pé ou com veículos. Os jogadores controlam três protagonistas e podem alternar entre eles durante e fora das missões. A história é centrada em sequências de assaltos, com muitas missões envolvendo a jogabilidade de tiro e direção. Um sistema de "procurado" define a resposta e agressividade das forças da lei contra os crimes cometidos pelo jogador. O modo multijogador, Grand Theft Auto Online, permite que até trinta jogadores explorem o mundo e entrem em partidas competitivas ou cooperativas.', LOAD_FILE('C:/xampp/htdocs/img/gta5.jpg'), 'image/jpeg', 28),
+(7, 'Grand Theft Auto: San Andreas', 'Grand Theft Auto: San Andreas é um jogo eletrônico de ação-aventura desenvolvido pela Rockstar  North e publicado pela Rockstar Games. É o quinto título principal da série Grand Theft Auto e foi lançado em outubro de 2004 para PlayStation 2 e em junho de 2005 para Xbox e Microsoft Windows. Wikipédia
+Data de lançamento inicial: 26 de outubro de 2004
+Prêmios: VGX: Melhor Interpretação Masculina, MAIS
+Indicações: VGX: Melhor Interpretação Masculina, MAIS
+Gêneros: Mundo aberto, Jogo eletrônico de ação e aventura, Jogo eletrônico de tiro, Jogabilidade não linear
+Desenvolvedores: Rockstar Games, Rockstar North
+Plataformas: Android, PlayStation 2, Microsoft Windows, MAIS
+Estúdios: Rockstar Games, Capcom, 1C Company, AK Tronic', LOAD_FILE('C:/xampp/htdocs/img/gta_san_andreas.jpg'), 'image/jpeg', 91),
+(8, 'The Witcher 3: Wild Hunt', 'Um RPG de mundo aberto massivo, onde você é Geralt de Rívia, um caçador de monstros profissional em uma busca por sua filha adotiva. O jogo é conhecido por sua história rica e envolvente, personagens memoráveis e um vasto mundo de fantasia para explorar.', LOAD_FILE('C:/xampp/htdocs/img/witcher3.jpg'), 'image/jpeg', 128),
+(9, 'Red Dead Redemption 2', 'Uma épica história de faroeste que segue Arthur Morgan e a gangue Van der Linde em uma fuga pelas vastas e implacáveis terras do Velho Oeste americano. O jogo é aclamado por seu realismo, detalhes impressionantes e uma narrativa profunda.', LOAD_FILE('C:/xampp/htdocs/img/rdr2.jpg'), 'image/jpeg', 120),
+(10, 'God of War Ragnarök', 'A sequência da aclamada aventura de 2018, que acompanha a jornada de Kratos e seu filho Atreus em   busca de respostas enquanto enfrentam o apocalipse nórdico. Com combate intenso e uma narrativa emocionante, este jogo é uma obra-prima.', LOAD_FILE('C:/xampp/htdocs/img/godofwar_ragnarok.jpg'), 'image/jpeg', 2),
+(13, 'Minecraft', 'Minecraft é um jogo eletrônico sandbox de sobrevivência de 2011 desenvolvido e publicado pela    desenvolvedora sueca Mojang Studios. Originalmente criado por Markus "Notch" Persson usando a linguagem de programação Java, a primeira versão alfa pública foi lançada em 17 de maio de 2009.', LOAD_FILE('C:/xampp/htdocs/img/minecraft.jpg'), 'image/jpeg', 97);
+(14, 'Cyberpunk 2077', 'Um RPG de ação futurista ambientado na metrópole de Night City, desenvolvido pela CD Projekt Red.', LOAD_FILE('C:/xampp/htdocs/img/cyberpunk2077.jpg'), 'image/jpeg', 65),
+(15, 'Elden Ring', 'Um RPG de ação em mundo aberto desenvolvido pela FromSoftware em parceria com George R. R. Martin.', LOAD_FILE('C:/xampp/htdocs/img/elden_ring.jpg'), 'image/jpeg', 83),
+(16, 'Horizon Forbidden West', 'A sequência de Horizon Zero Dawn, com Aloy explorando um vasto mundo cheio de máquinas.', LOAD_FILE('C:/xampp/htdocs/img/horizon_forbidden_west.jpg'), 'image/jpeg', 44),
+(17, 'The Last of Us Part II', 'Um drama intenso e emocionante ambientado em um mundo pós-apocalíptico.', LOAD_FILE('C:/xampp/htdocs/img/last_of_us_2.jpg'), 'image/jpeg', 39),
+(18, 'Assassin’s Creed Valhalla', 'Viva a saga de Eivor, um guerreiro viking em busca de glória e conquista.', LOAD_FILE('C:/xampp/htdocs/img/ac_valhalla.jpg'), 'image/jpeg', 70),
+(19, 'Resident Evil 4 Remake', 'Uma reimaginação moderna do clássico survival horror da Capcom.', LOAD_FILE('C:/xampp/htdocs/img/re4_remake.jpg'), 'image/jpeg', 54),
+(20, 'Call of Duty: Modern Warfare III', 'Um jogo de tiro em primeira pessoa com intensa ação militar e modo multiplayer.', LOAD_FILE('C:/xampp/htdocs/img/mw3.jpg'), 'image/jpeg', 110),
+(21, 'Spider-Man 2', 'A continuação da saga de Peter Parker e Miles Morales contra novos vilões.', LOAD_FILE('C:/xampp/htdocs/img/spiderman2.jpg'), 'image/jpeg', 77),
+(22, 'Ghost of Tsushima', 'Explore o Japão feudal e lute pela liberdade da ilha de Tsushima como Jin Sakai.', LOAD_FILE('C:/xampp/htdocs/img/ghost_of_tsushima.jpg'), 'image/jpeg', 88),
+(23, 'Starfield', 'Um RPG espacial da Bethesda onde você explora a galáxia em busca de mistérios e aventuras.', LOAD_FILE('C:/xampp/htdocs/img/starfield.jpg'), 'image/jpeg', 53),
+(24, 'Diablo IV', 'A nova geração da clássica série de RPG de ação sombria da Blizzard.', LOAD_FILE('C:/xampp/htdocs/img/diablo4.jpg'), 'image/jpeg', 42);
